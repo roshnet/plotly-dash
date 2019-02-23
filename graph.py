@@ -1,57 +1,56 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import pandas as pd
+import plotly.graph_objs as go
+
 
 app = dash.Dash()
 
-colors = {
-	'background': '#111111',
-	'text': '7FDBFF'
-}
 
-app.layout = html.Div(
-	style={
-		'background-color': colors['background']
-	},
-	children = [
-		html.H1(
-			children = 'Hello, Dash!',
-			style = {
-				'textAlign': 'center',
-				'color': colors['text']
-			}
-		),
-		html.Div(
-			children = 'Dash: A web application framework for Python.',
-			style = {
-				'textAlign': 'center',
-				'color': colors['text']
-			}
-		),
+df = pd.read_csv('datasets/gdp-life-exp-2007.csv')
+
+app.layout = html.Div([
 		dcc.Graph(
-			id = 'Graph1',
+			id = 'life-exp-vs=gdp',
 			figure = {
 				'data': [
-					{
-						'x': [1, 2, 3],
-						'y': [4, 1, 2],
-						'type': 'bar',
-						'name': 'SF',
-					},
-					{
-						'x': [1, 2, 3],
-						'y': [2, 4, 5],
-						'type': 'bar',
-						'name': 'Montreal'
-					}
+					go.Scatter(
+						x = df[df['continent'] == i]['gdp per capita'],
+						y = df[df['continent'] == i]['life expectancy'],
+						text = df[df['continent'] == i]['country'],
+						mode = 'markers',
+						opacity = 0.8,
+						marker = {
+							'size': 15,
+							'line': {
+								'width': 0.5,
+								'color': 'white'
+							}
+						},
+						name = i
+					) for i in df.continent.unique()
 				],
-				'layout': {
-					'plot_bgcolor': colors['background'],
-					'paper_bgcolor': colors['background'],
-					'font': {
-						'color': colors['text']
-					}
-				}
+				'layout': go.Layout(
+					xaxis = {
+						'type': 'log',
+						'title': 'GDP per capita'
+					},
+					yaxis = {
+						'title': 'Life Expectancy'
+					},
+					margin = {
+						'l': 40,
+						'b': 40,
+						't': 10,
+						'r': 10
+					},
+					legend = {
+						'x': 0,
+						'y': 1
+					},
+					hovermode = 'closest'
+				)
 			}
 		)
 	]
@@ -59,16 +58,3 @@ app.layout = html.Div(
 
 if __name__ == '__main__':
 	app.run_server(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
