@@ -12,7 +12,7 @@ df = pd.read_csv('datasets/gdp-life-exp-2007.csv')
 
 app.layout = html.Div([
 		dcc.Graph(
-			id = 'life-exp-vs=gdp',
+			id = 'life-exp-vs-gdp',
 			figure = {
 				'data': [
 					go.Scatter(
