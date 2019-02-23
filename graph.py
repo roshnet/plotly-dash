@@ -52,6 +52,23 @@ app.layout = html.Div([
 					hovermode = 'closest'
 				)
 			}
+		),
+		dcc.Dropdown(
+			options = [
+				{
+					'label': 'New York City',
+					'value': 'NYC'
+				},
+				{
+					'label': 'Montreal',
+					'value': 'MTL'
+				},
+				{
+					'label': 'San Francisco',
+					'value': 'SF'
+				}
+			],
+			value = 'NYC'	# default value
 		)
 	]
 )
